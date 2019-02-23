@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ip-tracing
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ip-tracing
+    spec:
+      containers:
+      - name: ip-tracing
+        image: anandbanik/ip-tracing
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ip-tracing
+  # For Azure Internal LB only
+  annotations: 
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true" 
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  selector:
+    app: ip-tracing
