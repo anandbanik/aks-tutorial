@@ -1,0 +1,37 @@
+# This file contains the essential configs for the ingress controller helm chart
+
+################################################################################
+# Specify which application gateway the ingress controller will manage
+#
+appgw:
+    subscriptionId: 4e1a2fb0-7ff7-4dfc-89dd-55e8a7647486
+    resourceGroup: MC_rg-aks-app-gateway_k8s-aks-app-gateway_westus
+    name: ag-aks-app-gateway
+
+################################################################################
+# Specify which kubernetes namespace the ingress controller will watch
+# Default value is "default"
+#
+# kubernetes:
+#   watchNamespace: <namespace>
+
+################################################################################
+# Specify the authentication with Azure Resource Manager
+#
+# Two authentication methods are available:
+# - Option 1: AAD-Pod-Identity (https://github.com/Azure/aad-pod-identity)
+# - Option 2: ServicePrincipal as a kubernetes secret
+# armAuth:
+#   type: servicePrincipal
+#   secretName: networking-appgw-k8s-azure-service-principal
+#   secretKey: ServicePrincipal.json
+armAuth:
+    type: aadPodIdentity
+    identityResourceID: /subscriptions/4e1a2fb0-7ff7-4dfc-89dd-55e8a7647486/resourcegroups/MC_rg-aks-app-gateway_k8s-aks-app-gateway_westus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity-aks-app-gateway
+    identityClientID:  4af5b357-a535-4c18-9ef0-bba701437f4c
+
+rbac:
+    enabled: false
+
+aksClusterConfiguration:
+    apiServerAddress: k8s-aks-app-gateway-dfb95743.hcp.westus.azmk8s.io

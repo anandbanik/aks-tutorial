@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1 
+kind: Ingress 
+metadata: 
+  name: test 
+  annotations: 
+    ingress.kubernetes.io/rewrite-target: / 
+spec: 
+  rules: 
+    - http: 
+       paths: 
+        - path: /ip-tracing 
+          backend: 
+           serviceName: ip-tracing 
+           servicePort: 80 
+        - path: /redis-reference 
+          backend: 
+           serviceName: fspt-dev1-redis-reference 
+           servicePort: 80 
