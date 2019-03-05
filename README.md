@@ -41,8 +41,8 @@ A Deployment controller provides declarative updates for Pods and ReplicaSets. Y
 a) How 'stuff' finds pods which could be anywhere</br>
 b) Define:
     <ul>
-    <li>   What port in the container</li>
-    <li>   Labels on pods which should respond to this type of request</li>
+    <li> What port in the container</li>
+    <li> Labels on pods which should respond to this type of request</li>
     </ul>
 c) Can define:
     <ul>
