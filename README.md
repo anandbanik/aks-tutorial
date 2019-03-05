@@ -25,7 +25,7 @@ a) kubelet</br>
 b) kube-proxy</br>
 c) cAdvisor</br>
 
-3. Pods:-</br>
+3. <b>Pods<b>:-</br>
 a) Single schedulable unit of work which neither move nor spans across machines.</br>
 b) Usually one or more container</br>
 c) Metadata about the container(s)</br>
