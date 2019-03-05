@@ -39,14 +39,16 @@ A Deployment controller provides declarative updates for Pods and ReplicaSets. Y
 
 5.  <b>Services</b>:-</br>
 a) How 'stuff' finds pods which could be anywhere</br>
-b) Define:</br>
+b) Define:
     <ul>
     <li>   What port in the container</li>
     <li>   Labels on pods which should respond to this type of request</li>
     </ul>
-c) Can define:</br>
-    i)   What the 'internal' IP should be</br>
-    ii)  What the 'external' IP should be</br>
-    iii) What port the service should listen on</br>
+c) Can define:
+    <ul>
+    <li> What the 'internal' IP should be</li>
+    <li> What the 'external' IP should be</li>
+    <li> What port the service should listen on</li>
+    </ul>
 
 ![Services](images/Services.PNG)
