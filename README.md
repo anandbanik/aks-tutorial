@@ -40,8 +40,10 @@ A Deployment controller provides declarative updates for Pods and ReplicaSets. Y
 5.  <b>Services</b>:-</br>
 a) How 'stuff' finds pods which could be anywhere</br>
 b) Define:</br>
-    i)   What port in the container</br>
-    ii)  Labels on pods which should respond to this type of request
+    <ul>
+    <li>   What port in the container</li>
+    <li>   Labels on pods which should respond to this type of request</li>
+    </ul>
 c) Can define:</br>
     i)   What the 'internal' IP should be</br>
     ii)  What the 'external' IP should be</br>
