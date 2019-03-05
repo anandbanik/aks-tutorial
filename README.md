@@ -13,9 +13,9 @@ Kubernetes (k8s) is an open-source system for automating deployment, scaling, an
 
 ### Components
 
-1. Master:- It typically consists of
-a) kube-apiserver
-b) kube-scheduler
-c) kube-controller-manager
-d) etcd
-e) kube-proxy
+1. Master:- It typically consists of </br>
+a) kube-apiserver</br>
+b) kube-scheduler</br>
+c) kube-controller-manager</br>
+d) etcd</br>
+e) kube-proxy</br>
