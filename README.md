@@ -32,4 +32,4 @@ c) Metadata about the container(s)</br>
 d) Env vars – configuration for the container</br>
 e) Every pod gets an unique IP by the container engine</br>
 
-![Pods](images/Pods.png)
+![Pods](images/Pods.PNG)
