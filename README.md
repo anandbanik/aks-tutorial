@@ -19,3 +19,17 @@ b) kube-scheduler</br>
 c) kube-controller-manager</br>
 d) etcd</br>
 e) kube-proxy</br>
+
+2. <b>Node</b>:- It typically consists of </br>
+a) kubelet</br>
+b) kube-proxy</br>
+c) cAdvisor</br>
+
+3. Pods:-</br>
+a) Single schedulable unit of work which neither move nor spans across machines.</br>
+b) Usually one or more container</br>
+c) Metadata about the container(s)</br>
+d) Env vars – configuration for the container</br>
+e) Every pod gets an unique IP by the container engine</br>
+
+![Pods](images/Pods.png)
