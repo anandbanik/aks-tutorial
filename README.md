@@ -38,7 +38,6 @@ e) Every pod gets an unique IP by the container engine</br>
 A Deployment controller provides declarative updates for Pods and ReplicaSets. You describe a desired state in a Deployment object, and the Deployment controller changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
 
 5. <b>Services</b>:-</br>
-
 a) How 'stuff' finds pods which could be anywhere</br>
 b) Define:
     <ul>
