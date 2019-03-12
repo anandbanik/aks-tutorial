@@ -66,32 +66,32 @@ c) Can define:
 ### Steps 
 
 1. Login to Azure Portal and create a new resource group, named "rg-agw-aks-demo" in West US region.
-2. Create new VNet with below details:-
-a) Name: vnet-agw-aks-demo 
-b) Address Space: 192.168.0.0/22
-c) Subnet Name: aks-subnet-agw-aks-demo
-d) Subnet Address Space: 192.168.0.0/24
-e) Service Endpoint: Microsoft.AzureCosmosDB
-3. Once the Vnet is created, add another subnet with name: agw-subnet-agw-aks-demo
-4. Create a k8s cluster with the below details:- (Rest is default)
-a) Name: k8s-cluster-agw-aks-demo
-b) DNS Prefix: k8s-cluster-agw-aks-demo
-c) Kubernetes Cluster Version: 1.12.6
-d) Region: West US
-5. Networking - Advance
-a) Virtual Network: vnet-agw-aks-demo
-b) Cluster Subnet: aks-subnet-agw-aks-demo
-c) Kubernetes Service address: 198.166.0.0/26
-d) Kubernetes DNS Service IP: 198.166.0.10
-e) Docker Bridge Address: 172.17.0.1/16
-f) Disable Monitoring.
-6. Validate and Create the cluster.
-7. Create a new application gateway with below details
-a) Name: gateway-agw-aks-demo
-b) Tier: Standard V2
-c) Capacity Type: Manual
-d) Subnet: Choose agw-subnet-agw-aks-demo 
-8. Make sure to create a public IP with DNS Name label.
+2. Create new VNet with below details:-</br>
+a) Name: vnet-agw-aks-demo </br>
+b) Address Space: 192.168.0.0/22</br>
+c) Subnet Name: aks-subnet-agw-aks-demo</br>
+d) Subnet Address Space: 192.168.0.0/24</br>
+e) Service Endpoint: Microsoft.AzureCosmosDB</br>
+3. Once the Vnet is created, add another subnet with name: agw-subnet-agw-aks-demo</br>
+4. Create a k8s cluster with the below details:- (Rest is default)</br>
+a) Name: k8s-cluster-agw-aks-demo</br>
+b) DNS Prefix: k8s-cluster-agw-aks-demo</br>
+c) Kubernetes Cluster Version: 1.12.6</br>
+d) Region: West US</br>
+5. Networking - Advance</br>
+a) Virtual Network: vnet-agw-aks-demo</br>
+b) Cluster Subnet: aks-subnet-agw-aks-demo</br>
+c) Kubernetes Service address: 198.166.0.0/26</br>
+d) Kubernetes DNS Service IP: 198.166.0.10</br>
+e) Docker Bridge Address: 172.17.0.1/16</br>
+f) Disable Monitoring.</br>
+6. Validate and Create the cluster.</br>
+7. Create a new application gateway with below details</br>
+a) Name: gateway-agw-aks-demo</br>
+b) Tier: Standard V2</br>
+c) Capacity Type: Manual</br>
+d) Subnet: Choose agw-subnet-agw-aks-demo </br>
+8. Make sure to create a public IP with DNS Name label.</br>
 9. Pull k8s credentials to your local with the below command. Make sure you are logged into correct a/c with 'az login'
 ```bash
    az aks get-credentials --resource-group=rg-agw-aks-demo --name=k8s-cluster-agw-aks-demo
