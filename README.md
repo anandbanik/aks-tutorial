@@ -52,3 +52,88 @@ c) Can define:
     </ul>
 
 ![Services](images/Services.PNG)
+
+## Deployment Steps
+
+### Pre-requisite
+
+1. Docker
+2. kubectl
+3. Helm
+4. Azure CLI
+5. Contributor access to Azure subscription.
+
+### Steps 
+
+1. Login to Azure Portal and create a new resource group, named "rg-agw-aks-demo" in West US region.
+2. Create new VNet with below details:-
+a) Name: vnet-agw-aks-demo 
+b) Address Space: 192.168.0.0/22
+c) Subnet Name: aks-subnet-agw-aks-demo
+d) Subnet Address Space: 192.168.0.0/24
+e) Service Endpoint: Microsoft.AzureCosmosDB
+3. Once the Vnet is created, add another subnet with name: agw-subnet-agw-aks-demo
+4. Create a k8s cluster with the below details:- (Rest is default)
+a) Name: k8s-cluster-agw-aks-demo
+b) DNS Prefix: k8s-cluster-agw-aks-demo
+c) Kubernetes Cluster Version: 1.12.6
+d) Region: West US
+5. Networking - Advance
+a) Virtual Network: vnet-agw-aks-demo
+b) Cluster Subnet: aks-subnet-agw-aks-demo
+c) Kubernetes Service address: 198.166.0.0/26
+d) Kubernetes DNS Service IP: 198.166.0.10
+e) Docker Bridge Address: 172.17.0.1/16
+f) Disable Monitoring.
+6. Validate and Create the cluster.
+7. Create a new application gateway with below details
+a) Name: gateway-agw-aks-demo
+b) Tier: Standard V2
+c) Capacity Type: Manual
+d) Subnet: Choose agw-subnet-agw-aks-demo 
+8. Make sure to create a public IP with DNS Name label.
+9. Pull k8s credentials to your local with the below command. Make sure you are logged into correct a/c with 'az login'
+```bash
+   az aks get-credentials --resource-group=rg-agw-aks-demo --name=k8s-cluster-agw-aks-demo
+```
+10. Add aad-pod-identity with the below command 
+```bash
+    kubectl create -f ~/AppDev/training/azure/Aks/deployment.yaml   
+```
+11. Create Identity in the same resource group as the AKS nodes (typically the resource group with a MC_ prefix string)
+```bash 
+    az identity create -g MC_rg-agw-aks-demo_k8s-cluster-agw-aks-demo_westus -n agw-aks-demo-user 
+```
+12. Find the principal, resource and client ID for this identity with the below command
+```bash
+    az identity show -g MC_rg-agw-aks-demo_k8s-cluster-agw-aks-demo_westus -n agw-aks-demo-user 
+```
+13. Assign this new identity Contributor access on the application gateway
+```bash
+az role assignment create --role Contributor --assignee <principal ID from the command above> --scope <Resource ID of Application Gateway>
+```
+
+14. Assign this new identity Reader access on the resource group that the application gateway belongs to
+```bash
+az role assignment create --role Reader --assignee <principal ID from the command above> --scope <Resource ID of Application Gateway Resource Group>
+```
+
+15. Add the application-gateway-kubernetes-ingress helm repo and perform a helm update
+```bash
+    helm init
+    helm repo add application-gateway-kubernetes-ingress https://azure.github.io/application-gateway-kubernetes-ingress/helm/
+    helm repo update
+```
+
+16. Edit helm-config.yaml and fill in the values 
+<p>The <identity-resource-id> and <identity-client-id> are the properties of the Azure AD Identity you setup in the previous section. You can retrieve this information by running the following command:
+```bash
+    az identity show -g <resourcegroup> -n <identity-name> 
+```
+Where <resourcegroup> is the resource group in which the top level AKS cluster object, Application Gateway and Managed Identify are deployed.</p>
+
+17. Install the helm chart with the command
+```bash
+    helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
+```
+

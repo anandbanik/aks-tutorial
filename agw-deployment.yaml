@@ -8,10 +8,15 @@ spec:
   rules:
   - http:
       paths:
-      - path: </other/*>
+      - path: /ip-tracing/*
         backend:
-          serviceName: <other-service>
+          serviceName: ip-tracing
           servicePort: 80
-      - backend:
-          serviceName: frontend
+      - path: /cosmos-reference/*
+        backend:
+          serviceName: cosmos-reference
+          servicePort: 80
+      - path: /*
+        backend:
+          serviceName: k8s-welcome
           servicePort: 80

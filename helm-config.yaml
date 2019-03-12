@@ -5,8 +5,8 @@
 #
 appgw:
     subscriptionId: 4e1a2fb0-7ff7-4dfc-89dd-55e8a7647486
-    resourceGroup: MC_rg-aks-app-gateway_k8s-aks-app-gateway_westus
-    name: ag-aks-app-gateway
+    resourceGroup: rg-agw-aks-demo
+    name: gateway-agw-aks-demo
 
 ################################################################################
 # Specify which kubernetes namespace the ingress controller will watch
@@ -27,11 +27,11 @@ appgw:
 #   secretKey: ServicePrincipal.json
 armAuth:
     type: aadPodIdentity
-    identityResourceID: /subscriptions/4e1a2fb0-7ff7-4dfc-89dd-55e8a7647486/resourcegroups/MC_rg-aks-app-gateway_k8s-aks-app-gateway_westus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity-aks-app-gateway
-    identityClientID:  4af5b357-a535-4c18-9ef0-bba701437f4c
+    identityResourceID: /subscriptions/4e1a2fb0-7ff7-4dfc-89dd-55e8a7647486/resourcegroups/MC_rg-agw-aks-demo_k8s-cluster-agw-aks-demo_westus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/agw-aks-demo-user
+    identityClientID:  635fe4b5-401d-46dc-80bd-f7a95c41ea21
 
 rbac:
     enabled: false
 
 aksClusterConfiguration:
-    apiServerAddress: k8s-aks-app-gateway-dfb95743.hcp.westus.azmk8s.io
+    apiServerAddress: k8s-cluster-agw-aks-demo-3dbef796.hcp.westus.azmk8s.io
