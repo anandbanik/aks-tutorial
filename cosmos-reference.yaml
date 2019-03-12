@@ -11,7 +11,23 @@ spec:
     spec:
       containers:
       - name: cosmos-reference
-        image: anandbanik/cosmos-reference:0.1
+        image: anandbanik/cosmos-reference:1.1
+        env:
+        - name: COSMOS_URI
+          valueFrom:
+            configMapKeyRef:
+              name: cosmos-properties
+              key: cosmos.uri
+        - name: COSMOS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cosmos-secret
+              key: cosmos.key
+        - name: COSMOS_DB
+          valueFrom:
+            configMapKeyRef:
+              name: cosmos-properties
+              key: cosmos.db
         ports:
         - containerPort: 8080
 ---
