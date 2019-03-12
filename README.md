@@ -1,65 +1,12 @@
-# Azure Kubernetes Services
-
-## Kubernetes
-
-### About Kubernetes
-Kubernetes (k8s) is an open-source system for automating deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units for easy management and discovery.
-
-### Features
-1. Start, stop, update, and manage a cluster of machines running containers in a consistent and maintainable way.
-2. Particularly suited for horizontally scaleable, stateless, or 'microservices' application architectures.
-3. Additional functionality to make containers easier to use in a cluster (reachability and discovery).
-4. Kubernetes does NOT and will not expose all of the 'features' of the docker command line.
-
-### Components
-
-1. <b>Master</b>:- It typically consists of </br>
-a) kube-apiserver</br>
-b) kube-scheduler</br>
-c) kube-controller-manager</br>
-d) etcd</br>
-e) kube-proxy</br>
-
-2. <b>Node</b>:- It typically consists of </br>
-a) kubelet</br>
-b) kube-proxy</br>
-c) cAdvisor</br>
-
-3. <b>Pods</b>:-</br>
-a) Single schedulable unit of work which neither move nor spans across machines.</br>
-b) Usually one or more container</br>
-c) Metadata about the container(s)</br>
-d) Env vars – configuration for the container</br>
-e) Every pod gets an unique IP by the container engine</br>
-
-![Pods](images/Pods.PNG)
-
-4. <b>Deployment</b>:-</br>
-A Deployment controller provides declarative updates for Pods and ReplicaSets. You describe a desired state in a Deployment object, and the Deployment controller changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
-
-5. <b>Services</b>:-</br>
-a) How 'stuff' finds pods which could be anywhere</br>
-b) Define:
-    <ul>
-    <li> What port in the container</li>
-    <li> Labels on pods which should respond to this type of request</li>
-    </ul>
-c) Can define:
-    <ul>
-    <li> What the 'internal' IP should be</li>
-    <li> What the 'external' IP should be</li>
-    <li> What port the service should listen on</li>
-    </ul>
-
-![Services](images/Services.PNG)
+# Azure Kubernetes Services Tutorial
 
 ## Deployment Steps
 
 ### Pre-requisite
 
-1. Docker
+1. docker
 2. kubectl
-3. Helm
+3. helm
 4. Azure CLI
 5. Contributor access to Azure subscription.
 
@@ -137,3 +84,56 @@ Where <resourcegroup> is the resource group in which the top level AKS cluster o
     helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
 ```
 
+18. Create "ConfigMap" and "Secret" for cosmos DB connection
+```bash
+    kubectl create configmap cosmos-properties --from-literal=cosmos.uri=https://cosmos-fspt-dev1-dmz.documents.azure.com:443/ --from-literal=cosmos.db=cosmos-fspt-dev1-db1
+    kubectl create secret generic cosmos-secret --from-literal=cosmos.key=2wbROjQh3vc4orEX6fXfekoXmv2XXfxJ0AIZxjGARbEo2WM5xgqnYK2qsShA1gGHuq60teQokPmqkhT7jbYqHg==
+```
+
+19. Deploy "k8s-welcome" service with the below command
+```bash
+    kubectl apply -f k8s-welcome-service.yaml
+```
+
+20. Deploy "cosmos-reference" service with the below command
+```bash
+    kubectl apply -f cosmos-reference.yaml
+```
+
+21. Deploy "ip-tracing" service with the below command
+```bash
+    kubectl apply -f ip-tracing-service.yaml
+```
+22. Deploy context-based routing rules
+```bash
+    kubectl apply -f agw-deployment.yaml
+```
+
+### Scaling pods
+
+1. Manually scale pods
+```bash
+    kubectl scale --replicas=5 deployment/k8s-welcome
+```
+
+2. Use below command to deploy metric-server
+```bash
+    git clone https://github.com/kubernetes-incubator/metrics-server.git
+    kubectl create -f metrics-server/deploy/1.8+/
+```
+
+3. Use the below command to set autoscaling criteria. In this case its, based on CPU threshold of 50%, min 3 and max 10 pods
+```bash
+    kubectl autoscale deployment k8s-welcome --cpu-percent=50 --min=3 --max=10
+```
+
+4. 
+
+### Scaling Nodes
+
+1. Use the below command to scale nodes (or from Portal)
+```bash
+    az aks scale --resource-group rg-agw-aks-demo --name k8s-cluster-agw-aks-demo --node-count 5
+```
+
+2. Node Autoscaling is in preview. Please refer https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler for more details.
